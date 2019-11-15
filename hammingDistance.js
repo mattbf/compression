@@ -6,8 +6,13 @@
                              [1,0,1,1,0,1,0,1], [1,0,0,1,1,1,1,1]
                             ]
 
+    var numOfColumns = 0
+    hammingCodeBook.forEach(column => numOfColumns ++)
+    console.log(numOfColumns)
 
-    function countWeights(matrix){
+    function findDmin(matrix){
+        var initDmin = null
+        function countWeights(){
         var hash = []
         for (var i = 0; i<matrix.length; i++){
             var numOnes = 0
@@ -31,32 +36,49 @@
 
         return hash
     }
+        var smallestWVectors = countWeights()
 
+        function hammingDistance(a, b) {
+          let distance = 0;
 
-    function findDmin(matrix){
+          for (let i = 0; i < a.length; i += 1) {
+            if (a[i] !== b[i]) {
+              distance += 1;
+            }
+          }
 
-        //to find smallest Hamming weight, find the vector with the least # of 1s - could be multiple
-        function countWeights(){
-        var hash = []
-        for (var i = 0; i<matrix.length; i++){
-            var numOnes = 0
-            matrix[i].forEach(bit => {
-                if(bit == 1){numOnes ++}
-            })
-            hash.push({column: i, numOnes: numOnes})
+          return distance;
         }
-        return hash
+        function dMin(){
+            for(var i=0; i<smallestWVectors.length; i++){
+                console.log("Starting with")
+                console.log(smallestWVectors)
+                var compColumn = smallestWVectors[i].column
+                console.log("Comparing column " + compColumn)
+                for(var j=0; j<numOfColumns; j++){
+                    let hamDist = hammingDistance(
+                        hammingCodeBook[compColumn], hammingCodeBook[j]
+                    )
+                    console.log("Comp Column " + compColumn + " has min ham dist " + hamDist)
+                    if(initDmin == null){
+                        console.log("first dmin is " + hamDist)
+                        initDmin = hamDist
+                    } else if (hamDist < initDmin){
+                        console.log("Found smaller dMin " + hamDist)
+                        initDmin = hamDist
+                    }
+                }
+
+            }
+            return initDmin
+        }
+
+        return dMin()
+
     }
 
-        function dMin(weightHash){
-
-        }
-
-        return dMin(countWeights())
-
-    }
 
 
-
-    console.log(countWeights(hammingCodeBook));
+    //console.log(countWeights(hammingCodeBook));
+    console.log(findDmin(hammingCodeBook))
 }());
