@@ -40,7 +40,7 @@
 
         function hammingDistance(a, b) {
           let distance = 0;
-
+            console.log("comparing " + a + " with " + b)
           for (let i = 0; i < a.length; i += 1) {
             if (a[i] !== b[i]) {
               distance += 1;
@@ -51,11 +51,10 @@
         }
         function dMin(){
             for(var i=0; i<smallestWVectors.length; i++){
-                console.log("Starting with")
-                console.log(smallestWVectors)
                 var compColumn = smallestWVectors[i].column
                 console.log("Comparing column " + compColumn)
                 for(var j=0; j<numOfColumns; j++){
+                    if(compColumn == j){j++}
                     let hamDist = hammingDistance(
                         hammingCodeBook[compColumn], hammingCodeBook[j]
                     )
